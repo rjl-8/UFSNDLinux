@@ -27,6 +27,8 @@ if [ $USER == 'ubuntu' ]; then
         rm ./linuxCourse
         # change permissions on pub file so it can be copied - temporary settings
         sudo chmod 777 linuxCourse.pub
+        cp deploy.sh ~
+        chmod a+x deploy.sh
     elif [ $1 == 2 ]; then
         #2. change ssh port from 22 to 2200.
         #   Configure lightsail firewall to allow it
