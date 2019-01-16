@@ -19,6 +19,14 @@ if [ $USER == 'ubuntu' ]; then
         #DONE
         sudo apt-get update
         sudo apt-get upgrade
+
+        #9 install git
+        sudo apt-get install git
+        git clone https://github.com/rjl-8/UFSNDLinux.git
+        cd UFSNDLinux
+        rm ./linuxCourse
+        # change permissions on pub file so it can be copied - temporary settings
+        sudo chmod 777 linuxCourse.pub
     elif [ $1 == 2 ]; then
         #2. change ssh port from 22 to 2200.
         #   Configure lightsail firewall to allow it
@@ -40,6 +48,7 @@ if [ $USER == 'ubuntu' ]; then
         sudo echo 'grader ALL=(ALL:ALL) ALL' > /etc/sudoers.d/grader.sudo
     elif [ $1 == 5 ]; then
         #5.	create ssh key pair for grader using ssh-keygen
+        #DONE
         echo 'do this step in git-bash locally'
         echo 'ssh-keygen'
         echo 'enter linuxCourse as a filename'
@@ -48,7 +57,10 @@ if [ $USER == 'ubuntu' ]; then
 elif [ $USER == 'grader' ]; then
     if [ $1 == 5 ]; then
         #5 completion of ssh key pair setup
+        #DONE
         mkdir ~/.ssh
+        cp ~/../ubuntu/UFSNDLinux/linuxCourse.pub ~/.ssh/authorized_keys
+        sudo chown grader:grader ~/.ssh/authorized_keys
         touch ~/.ssh/authorized_keys
         echo 'vi authorized_keys and copy and paste the .pub key file contents'
         chmod 700 .ssh
@@ -70,13 +82,16 @@ elif [ $USER == 'grader' ]; then
         #	Create a new database user named catalog that has limited permissions to your catalog application
     elif [ $1 == 9 ]; then
         #9.	install git
+        #DONE above
     elif [ $1 == 10 ]; then
         #10 deploy the catalog project
-        #   install python libraries like flask and sqlalchemy (and request)
         #   Note: When you set up OAuth for your application, you will need a DNS name that refers to your instance's IP address. You can use the xip.io service to get one; this is a public service offered for free by Basecamp. For instance, the DNS name 54.84.49.254.xip.io refers to the server above.
+        git clone https://github.com/rjl-8/UFSNDCatalog.git
+        #cp files someplace
     elif [ $1 == 11 ]; then
         #11 make the catalog project work when visiting the server.
         #   Make sure the .git folder is not publicly viewable – delete it
+        #   install python libraries like flask and sqlalchemy (and request)
     fi
 else
     echo 'cannot do step $1 as user $USER'
