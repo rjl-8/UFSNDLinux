@@ -90,10 +90,19 @@ elif [ $USER == 'grader' ]; then
         sudo echo 'Etc/UTC' > /etc/timezone
     elif [ $1 == 7 ]; then
         #7.	install apache
+        sudo apt-get install apache2
+        # validate by sudo vi /var/www/html/index.html
+
         #	Configure to serve python mod_wsgi
+        sudo apt-get install libapache2-mod-wsgi
+        #sudo vi /etc/apache2/sites-enabled/000-default.conf
+        #right before closing tag of </VirtualHost>
+        #WSGIScriptAlias / /var/www/html/myapp.wsgi
+        #sudo apache2ctl restart
         #	If using python3 – sudo apt-get install libapache2-mod-wsgi-py3
     elif [ $1 == 8 ]; then
         #8.	install postgresql
+        sudo apt-get install postgresql
         #	Do not allow remote connections
         #	Create a new database user named catalog that has limited permissions to your catalog application
     elif [ $1 == 9 ]; then
@@ -103,9 +112,23 @@ elif [ $USER == 'grader' ]; then
         #10 deploy the catalog project
         #   Note: When you set up OAuth for your application, you will need a DNS name that refers to your instance's IP address. You can use the xip.io service to get one; this is a public service offered for free by Basecamp. For instance, the DNS name 54.84.49.254.xip.io refers to the server above.
         git clone https://github.com/rjl-8/UFSNDCatalog.git
+
+        sudo passwd postgres
+        su postgres
+        psql
+        create role catalog with login password '******';
+        create database catalog with owner=catalog;
+        \q
         #cp files someplace
     elif [ $1 == 11 ]; then
         #11 make the catalog project work when visiting the server.
+        sudo apt install python-pip
+        pip install sqlalchemy
+        pip install psycopg2
+        pip install psycopg2-binary
+        pip install flask
+        pip install oauth2client
+        pip install requests
         #   Make sure the .git folder is not publicly viewable – delete it
         #   install python libraries like flask and sqlalchemy (and request)
     fi
