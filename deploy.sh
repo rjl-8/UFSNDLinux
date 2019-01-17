@@ -21,9 +21,10 @@ if [ $USER == 'ubuntu' ]; then
         sudo apt-get upgrade
 
         #9 install git
+        #DONE
         sudo apt-get install git
         git clone https://github.com/rjl-8/UFSNDLinux.git
-        cd UFSNDLinux
+        cd ~/UFSNDLinux
         rm ./linuxCourse
         # change permissions on pub file so it can be copied - temporary settings
         sudo chmod 777 linuxCourse.pub
@@ -31,7 +32,20 @@ if [ $USER == 'ubuntu' ]; then
         chmod a+x deploy.sh
     elif [ $1 == 2 ]; then
         #2. change ssh port from 22 to 2200.
+        #DONE
+        #run script below to check /etc/ssh/sshd_config
+        # and do whatever it says
+        cd ~/UFSNDLinux
+        chmod a+x chkssh.sh
+
         #   Configure lightsail firewall to allow it
+        #in aws console, select lightsail
+        # then select the vertical elipsis for the instance in question
+        # then select Manage
+        # then select Networking
+        # then add a Custom TCP opening for port 2200
+        # then remove ssh tcp opening for port 22
+
         #   Configure ufw to only allow incoming connections for ssh (2200), http (80) and ntp (123)
         sudo ufw default deny incoming
         sudo ufw default allow outgoing
@@ -68,7 +82,7 @@ elif [ $USER == 'grader' ]; then
         chmod 700 .ssh
         chmod 644 .ssh/authorized_keys
         echo 'Now can log in as grader with:'
-        echo 'ssh grader@18.223.53.219 -p 2200 -i ~/.ssh/linuxCourse
+        echo 'ssh grader@18.223.53.219 -p 2200 -i ~/.ssh/linuxCourse'
     if [ $1 == 6 ]; then
         #6.	make local timezone UTC
         #DONE
