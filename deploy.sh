@@ -95,11 +95,7 @@ elif [ $USER == 'grader' ]; then
 
         #	Configure to serve python mod_wsgi
         sudo apt-get install libapache2-mod-wsgi
-        #sudo vi /etc/apache2/sites-enabled/000-default.conf
-        #right before closing tag of </VirtualHost>
-        #WSGIScriptAlias / /var/www/html/myapp.wsgi
-        #sudo apache2ctl restart
-        #	If using python3 – sudo apt-get install libapache2-mod-wsgi-py3
+        #	If using python3 – sudo apt-get install libapache2-mod-wsgi-py3 - Not using 3
     elif [ $1 == 8 ]; then
         #8.	install postgresql
         sudo apt-get install postgresql
@@ -120,8 +116,14 @@ elif [ $USER == 'grader' ]; then
         create database catalog with owner=catalog;
         \q
         #cp files someplace
+        #sudo mkdir /var/www/html/catalog
+        #set ownership and permissions
+        #sudo cp -r ~/UFSNDCatalog/* /var/www/html/catalog
+        #sudo mv /var/www/html/catalog/application.py /var/www/html/catalog/application.wsgi
+        #sudo mv /var/www/html/catalog/database_setup.py /var/www/html/catalog/database_setup.wsgi
     elif [ $1 == 11 ]; then
         #11 make the catalog project work when visiting the server.
+        #   install python libraries like flask and sqlalchemy (and request)
         sudo apt install python-pip
         pip install sqlalchemy
         pip install psycopg2
@@ -129,8 +131,12 @@ elif [ $USER == 'grader' ]; then
         pip install flask
         pip install oauth2client
         pip install requests
+
         #   Make sure the .git folder is not publicly viewable – delete it
-        #   install python libraries like flask and sqlalchemy (and request)
+        #sudo vi /etc/apache2/sites-enabled/000-default.conf
+        #right before closing tag of </VirtualHost>
+        #WSGIScriptAlias /catalog /var/www/html/application.wsgi
+        #sudo apache2ctl restart
     fi
 else
     echo 'cannot do step $1 as user $USER'
