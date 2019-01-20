@@ -51,6 +51,10 @@ if [ $USER == 'ubuntu' ]; then
         sudo ufw allow www
         sudo ufw allow ntp
         sudo ufw enable
+        echo '############################'
+        echo '### FOLLOW DIRECTIONS!!! ###'
+        echo '############################'
+        echo 'logout and back in as ubuntu but with port 2200'
     elif [ $1 == 3 ]; then
         #3.	create user named grader
         # copy grader related deploy files to grader folder
@@ -72,6 +76,10 @@ if [ $USER == 'ubuntu' ]; then
         sudo chown grader:grader /home/grader/.ssh/authorized_keys
         sudo chmod 700 /home/grader/.ssh
         sudo chmod 644 /home/grader/.ssh/authorized_keys
+        #this is just to bring the deploy script to the grader directory
+        sudo cp /home/ubuntu/deploy.sh /home/grader/.
+        sudo chown grader:grader /home/grader/deploy.sh
+        sudo chmod a+x /home/grader/deploy.sh
         echo 'Now can log in as grader with:'
         echo 'ssh grader@18.223.53.219 -p 2200 -i linuxCourse'
     fi
@@ -79,10 +87,6 @@ elif [ $USER == 'grader' ]; then
     if [ $1 == 5 ]; then
         #5 completion of ssh key pair setup
         #DONE
-        echo 'this is just to bring the deploy script to the local directory'
-        sudo cp /home/ubuntu/deploy.sh /home/grader/.
-        sudo chown grader:grader /home/grader/deploy.sh
-        sudo chmod a+x /home/grader/deploy.sh
     elif [ $1 == 6 ]; then
         #6.	make local timezone UTC
         #DONE
@@ -113,14 +117,16 @@ elif [ $USER == 'grader' ]; then
         echo 'wherever it prompts for a password, type "Passw0rd"'
         echo 'set password for postgres user'
         sudo passwd postgres
-        echo 'su to postgres user'
-        su postgres
-        echo 'now enter postgres and setup the db for the web by typing the following commands:'
+        echo '############################'
+        echo 'now you with switch to postgres user'
+        echo 'Once you have entered the password you just created'
+        echo 'you will enter postgres and setup the db for the web by typing the following commands:'
         echo 'psql'
         echo "create role catalog with login password 'Passw0rd';"
         echo 'create database catalog with owner=catalog;'
         echo '\q'
         echo 'exit'
+        su postgres
     elif [ $1 == 9 ]; then
         #9.	install git
         #DONE above
@@ -155,12 +161,7 @@ elif [ $USER == 'grader' ]; then
         sudo cp /home/ubuntu/UFSNDLinux/application.wsgi /var/www/html/catalog/application.wsgi
         sudo cp /var/www/html/catalog/application.py /var/www/html/catalog/catalog.py
         sudo cp /home/ubuntu/UFSNDLinux/replace_000-default.conf /etc/apache2/sites-enabled/000-default.conf
-        echo '############################'
-        echo '### FOLLOW DIRECTIONS!!! ###'
-        echo '############################'
-        echo 'sudo vi /var/www/html/catalog/catalog.py'
-        echo 'and hardcode the path for /var/www/html/catalog/client_secrets.json'
-        echo 'then sudo apache2ctl restart'
+        sudo apache2ctl restart
     elif [ $1 == 11 ]; then
         echo 'already done'
     fi
