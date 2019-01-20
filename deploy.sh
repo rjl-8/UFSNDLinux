@@ -4,16 +4,6 @@
 # Using user ubuntu
 ###################
 if [ $USER == 'ubuntu' ]; then
-#    if [ $1 == 0 ]; then
-#        #0  setup for this deployment
-#    fi
-
-#    #validate that step 0 is complete first
-#    if [ zzznot setup ]; then
-#        echo 'run step 0 first as ubuntu'
-#        return 0
-#    fi
-
     if [ $1 == 1 ]; then
         #1. update all currently installed packages
         # Note, run this step manually
@@ -37,6 +27,9 @@ if [ $USER == 'ubuntu' ]; then
         #DONE
         #run script below to check /etc/ssh/sshd_config
         # and do whatever it says
+        echo '############################'
+        echo '### FOLLOW DIRECTIONS!!! ###'
+        echo '############################'
         cd ~/UFSNDLinux
         chmod a+x chkssh.sh
         ./chkssh.sh
@@ -93,10 +86,13 @@ elif [ $USER == 'grader' ]; then
     elif [ $1 == 6 ]; then
         #6.	make local timezone UTC
         #DONE
+        echo '############################'
+        echo '### FOLLOW DIRECTIONS!!! ###'
+        echo '############################'
         echo 'make sure the following command shows "Etc/UTC"'
         cat /etc/timezone
-        #if not
-        #sudo vi /etc/timezone
+        echo 'if not:'
+        echo 'sudo vi /etc/timezone and make it so'
     elif [ $1 == 7 ]; then
         #7.	install apache
         sudo apt-get install apache2
@@ -111,6 +107,9 @@ elif [ $USER == 'grader' ]; then
         sudo apt-get install postgresql
         #	Do not allow remote connections zzz
         #	Create a new database user named catalog that has limited permissions to your catalog application
+        echo '############################'
+        echo '### FOLLOW DIRECTIONS!!! ###'
+        echo '############################'
         echo 'wherever it prompts for a password, type "Passw0rd"'
         echo 'set password for postgres user'
         sudo passwd postgres
@@ -156,9 +155,9 @@ elif [ $USER == 'grader' ]; then
         sudo cp /home/ubuntu/UFSNDLinux/application.wsgi /var/www/html/catalog/application.wsgi
         sudo cp /var/www/html/catalog/application.py /var/www/html/catalog/catalog.py
         sudo cp /home/ubuntu/UFSNDLinux/replace_000-default.conf /etc/apache2/sites-enabled/000-default.conf
-        echo '#########################'
-        echo '#########################'
-        echo '#########################'
+        echo '############################'
+        echo '### FOLLOW DIRECTIONS!!! ###'
+        echo '############################'
         echo 'sudo vi /var/www/html/catalog/catalog.py'
         echo 'and hardcode the path for /var/www/html/catalog/client_secrets.json'
         echo 'then sudo apache2ctl restart'
