@@ -1,4 +1,4 @@
-#Static ip - 18.223.53.219
+#Static ip - 18.188.43.43
 #
 
 # Using user ubuntu
@@ -81,7 +81,7 @@ if [ $USER == 'ubuntu' ]; then
         sudo chown grader:grader /home/grader/deploy.sh
         sudo chmod a+x /home/grader/deploy.sh
         echo 'Now can log in as grader with:'
-        echo 'ssh grader@18.223.53.219 -p 2200 -i linuxCourse'
+        echo 'ssh grader@18.188.43.43 -p 2200 -i linuxCourse'
     fi
 elif [ $USER == 'grader' ]; then
     if [ $1 == 5 ]; then
