@@ -1,1 +1,2 @@
-grader ALL=(ALL:ALL) ALL
+# grader ALL=(ALL:ALL) ALL
+grader ALL=(ALL) NOPASSWD: ALL

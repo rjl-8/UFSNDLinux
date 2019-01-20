@@ -63,8 +63,7 @@ if [ $USER == 'ubuntu' ]; then
         sudo adduser grader
     elif [ $1 == 4 ]; then
         #4.	give grader sudo
-        #DONEzzzfailed
-        sudo cp ~/UFSNDLinux/grader.sudo /etc/sudoers.d/grader.sudo
+        sudo cp ~/UFSNDLinux/grader.sudo /etc/sudoers.d/grader
     elif [ $1 == 5 ]; then
         #5.	create ssh key pair for grader using ssh-keygen
         #DONE
@@ -76,7 +75,7 @@ if [ $USER == 'ubuntu' ]; then
         sudo mkdir /home/grader/.ssh
         sudo chown grader:grader /home/grader/.ssh
         sudo cp /home/ubuntu/UFSNDLinux/linuxCourse.pub /home/grader/.ssh/authorized_keys
-        sudo chown grader:grader ~/.ssh/authorized_keys
+        sudo chown grader:grader /home/grader/.ssh/authorized_keys
         sudo chmod 700 /home/grader/.ssh
         sudo chmod 644 /home/grader/.ssh/authorized_keys
         echo 'Now can log in as grader with:'
@@ -127,6 +126,7 @@ elif [ $USER == 'grader' ]; then
         #         service offered for free by Basecamp. For
         #         instance, the DNS name 54.84.49.254.xip.io
         #         refers to the server above.
+        cd ~
         git clone https://github.com/rjl-8/UFSNDCatalog.git
 
         #11 make the catalog project work when visiting the server.
@@ -140,6 +140,7 @@ elif [ $USER == 'grader' ]; then
         sudo pip install requests
 
         #cp files someplace
+        sudo mkdir /var/www/wsgi
         sudo mkdir /var/www/wsgi/catalog
         #set ownership and permissions
         sudo cp -r ~/UFSNDCatalog/* /var/www/wsgi/catalog
@@ -148,6 +149,20 @@ elif [ $USER == 'grader' ]; then
         #and hardcode the path for /var/www/wsgi/catalog/client_secrets.json
         sudo cp ~/UFSNDLinux/application.wsgi /var/www/wsgi/catalog/application.wsgi
         sudo cp ~/UFSNDLinux/catalog.conf /etc/apache2/sites-enabled/catalog.conf
+        sudo apache2ctl restart
+
+        #cp files someplace
+        sudo mkdir /var/www/html/catalog
+        #set ownership and permissions
+        sudo cp -r /home/grader/UFSNDCatalog/* /var/www/html/catalog
+        sudo python /var/www/html/catalog/database_setup.py
+        #sudo vi /var/www/wsgi/catalog/application.py
+        #and hardcode the path for /var/www/wsgi/catalog/client_secrets.json
+        sudo cp /home/ubuntu/UFSNDLinux/application.wsgi /var/www/html/catalog/application.wsgi
+        sudo cp /var/www/html/catalog/application.py /var/www/html/catalog/catalog.py
+        sudo cp /home/ubuntu/UFSNDLinux/replace_000-default.conf /etc/apache2/sites-enabled/000-default.conf
+        # sudo vi /etc/apache2/sites-enabled/000-default.conf
+        # and paste contents of catalog_html.conf just above closing VirtualHost tag
         sudo apache2ctl restart
     elif [ $1 == 11 ]; then
     fi
