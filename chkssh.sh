@@ -15,4 +15,12 @@ cat /etc/ssh/sshd_config | awk '{
         print "sudo vi /etc/ssh/sshd_config and set PasswordAuthentication to no"
         print "sudo service ssh restart"
     }
+    if ($1 == "#PermitRootLogin") {
+        print "sudo vi /etc/ssh/sshd_config and uncomment PermitRootLogin and set to no"
+        print "sudo service ssh restart"
+    }
+    if ($1 == "PermitRootLogin" && $2 != "no") {
+        print "sudo vi /etc/ssh/sshd_config and set PermitRootLogin to no"
+        print "sudo service ssh restart"
+    }
 }'
